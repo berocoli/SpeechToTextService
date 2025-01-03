@@ -1,0 +1,43 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}My Website{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+
+    <!-- Navbar -->
+    <nav class="bg-zinc-800 text-white">
+        <div class="container mx-auto my-auto px-4 py-5 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="text-lg font-bold">
+                <a href="/" class="hover:text-gray-300">My Website</a>
+            </div>
+            
+            <!-- Links -->
+            <ul class="flex space-x-4">
+                <li>
+                    <a href="/" class="hover:text-gray-300">Home</a>
+                </li>
+                <li>
+                    <a href="/about" class="hover:text-gray-300">About</a>
+                </li>
+                <li>
+                    <a href="/contact" class="hover:text-gray-300">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
