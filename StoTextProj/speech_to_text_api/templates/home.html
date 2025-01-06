@@ -1,13 +1,314 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Home Page
+Speech to Text - Home
 {% endblock %}
 
 {% block content %}
-<div class="container mx-auto">
-    <section class="flex flex-col gap-10 items-center justify-center h-screen">
-        <h1 class="text-5xl">Speech to Text Project</h1>
+<div class="container mx-auto px-4 py-8">
+    <section class="flex flex-col items-center justify-center min-h-screen gap-8">
+        <h1 class="text-5xl font-bold text-center text-gray-800">Speech to Text Project</h1>
+
+        <!-- Dosya Yükleme ve İşleme Formu -->
+        <form id="audioForm" method="POST" enctype="multipart/form-data"
+            class="flex flex-col items-center gap-6 bg-gray-50 p-8 rounded-lg shadow-lg w-full max-w-lg">
+            {% csrf_token %}
+
+            <!-- Gelişmiş Dosya Yükleme Alanı -->
+            <div class="w-full">
+                <label for="audio_file" class="block text-lg font-semibold text-gray-700 mb-2">Ses Dosyası:</label>
+                <div id="dropZone" class="relative border-2 border-dashed border-blue-400 rounded-lg p-8 text-center cursor-pointer
+                    transition-all duration-300 ease-in-out hover:border-blue-600 hover:bg-blue-50 group">
+
+                    <!-- Dosya Seçim İkonu ve Metin -->
+                    <div class="flex flex-col items-center space-y-4">
+                        <!-- Upload Icon -->
+                        <svg class="w-12 h-12 text-blue-500 group-hover:text-blue-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+
+                        <!-- Ana Metin -->
+                        <div class="text-gray-600 group-hover:text-gray-700">
+                            <p class="font-medium">Dosyayı sürükleyip bırakın</p>
+                            <p class="text-sm">veya dosya seçmek için tıklayın</p>
+                        </div>
+
+                        <!-- Dosya Türü Bilgisi -->
+                        <p class="text-xs text-red-500">Sadece WAV formatı desteklenmektedir!</p>
+                    </div>
+
+                    <!-- Seçilen Dosya Bilgisi -->
+                    <div id="fileInfo" class="hidden mt-4 p-3 bg-blue-100 rounded-lg">
+                        <p class="text-sm text-blue-800 font-medium">
+                            Seçilen dosya: <span id="fileName" class="font-normal"></span>
+                        </p>
+                    </div>
+
+                    <!-- Gerçek Input Elementi -->
+                    <input type="file" id="audio_file" name="audio_file" accept=".wav" required
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                </div>
+            </div>
+
+            <!-- İşleme Türü Seçimi -->
+            <div class="w-full bg-white p-4 rounded-lg border border-gray-200">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">İşleme Türü:</label>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="radio" name="process_type" value="raw" required
+                            class="w-4 h-4 text-blue-500 focus:ring-blue-500">
+                        <span class="ml-3">
+                            <span class="block text-gray-800 font-medium">Salt Dosya</span>
+                            <span class="block text-sm text-gray-500">Ses dosyasını olduğu gibi işler</span>
+                        </span>
+                    </label>
+                    <label class="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="radio" name="process_type" value="clean" required
+                            class="w-4 h-4 text-blue-500 focus:ring-blue-500">
+                        <span class="ml-3">
+                            <span class="block text-gray-800 font-medium">Temizlenmiş Dosya</span>
+                            <span class="block text-sm text-gray-500">Gürültü ve parazitleri temizler</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Gönderim Butonu -->
+            <button type="submit" id="submitBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white text-lg font-semibold py-3 px-6 rounded-lg 
+                shadow-md transition-colors duration-300 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+                <span>İşlemi Başlat</span>
+            </button>
+        </form>
+
+        <!-- İşlem Süresi -->
+        <div id="timerContainer" class="hidden text-center">
+            <div class="text-2xl font-bold text-gray-700">
+                <span id="processingText">İşleniyor...</span>
+                <span id="timer" class="ml-2">00:00.00</span>
+            </div>
+        </div>
+
+        <!-- İşlem Durum ve Sonuç -->
+        <div id="processMessage" class="hidden text-lg text-gray-800 mt-4 font-semibold"></div>
+
+        <!-- Download Consent Container -->
+        <div id="downloadConsentContainer" class="hidden bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-lg mt-4">
+            <h2 class="text-lg font-bold mb-4 text-gray-800">Dosya İndirme Onayı</h2>
+            <p class="text-gray-700 mb-4">İşlenen ses dosyanızın metin çıktısını indirmek istiyor musunuz?</p>
+            <div class="flex gap-4">
+                <button id="confirmDownloadBtn"
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                    İndir
+                </button>
+                <button id="cancelDownloadBtn"
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                    İptal
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Container -->
+        <div id="outputContainer" class="hidden bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-lg mt-4">
+            <h2 class="text-lg font-bold mb-4 text-gray-800">Sonuçlar:</h2>
+            <pre id="output" class="text-gray-700 font-mono whitespace-pre-wrap"></pre>
+        </div>
     </section>
 </div>
+
+<script>
+    // Dosya yükleme alanı için işlevler
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('audio_file');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+
+    // Sürükle-bırak olayları
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // Sürükleme efektleri
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.add('border-blue-600', 'bg-blue-50');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.remove('border-blue-600', 'bg-blue-50');
+        });
+    });
+
+    // Dosya bırakıldığında
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const file = dt.files[0];
+
+        if (file && file.type === 'audio/wav') {
+            handleFile(file);
+        } else {
+            alert('Lütfen WAV formatında bir dosya yükleyin.');
+        }
+    });
+
+    // Normal dosya seçimi
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            handleFile(file);
+        }
+    });
+
+    // Dosya işleme
+    function handleFile(file) {
+        fileName.textContent = file.name;
+        fileInfo.classList.remove('hidden');
+    }
+
+    // Kronometre fonksiyonları
+    let startTime;
+    let timerInterval;
+
+    function startTimer() {
+        const timerContainer = document.getElementById('timerContainer');
+        const timerElement = document.getElementById('timer');
+        timerContainer.classList.remove('hidden');
+        startTime = Date.now();
+
+        timerInterval = setInterval(() => {
+            const elapsedTime = Date.now() - startTime;
+            const minutes = Math.floor(elapsedTime / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+            const milliseconds = Math.floor((elapsedTime % 1000) / 10);
+
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+        }, 10);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        const processingText = document.getElementById('processingText');
+        processingText.textContent = 'İşlem Tamamlandı -';
+    }
+
+    // Form gönderimi
+    document.getElementById("audioForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const processMessage = document.getElementById("processMessage");
+        const downloadConsentContainer = document.getElementById("downloadConsentContainer");
+        const outputContainer = document.getElementById("outputContainer");
+        const output = document.getElementById("output");
+        const submitBtn = document.getElementById("submitBtn");
+
+        // Önceki mesaj ve çıktıları temizle
+        processMessage.classList.add("hidden");
+        downloadConsentContainer.classList.add("hidden");
+        outputContainer.classList.add("hidden");
+        processMessage.innerText = "";
+        output.innerText = "";
+
+        // İşlem sırasında butonu devre dışı bırak
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>İşleniyor...</span>
+        `;
+
+        startTimer();
+
+        try {
+            const response = await fetch("{% url 'audio_process' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Sunucu hatası: ${response.statusText}`);
+            }
+
+            stopTimer();
+
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("text/plain")) {
+                const responseClone = response.clone();
+                const text = await responseClone.text();
+
+                output.innerText = text;
+                outputContainer.classList.remove("hidden");
+                downloadConsentContainer.classList.remove("hidden");
+
+                document.getElementById("confirmDownloadBtn").onclick = async () => {
+                    const blob = await response.clone().blob();
+                    const contentDisposition = response.headers.get('content-disposition');
+                    const filename = contentDisposition
+                        ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+                        : 'dialogue.txt';
+
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+
+                    processMessage.innerText = "Dosya başarıyla indirildi!";
+                    processMessage.classList.remove("hidden");
+                    downloadConsentContainer.classList.add("hidden");
+                };
+
+                document.getElementById("cancelDownloadBtn").onclick = () => {
+                    downloadConsentContainer.classList.add("hidden");
+                    processMessage.innerText = "Dosya indirme iptal edildi.";
+                    processMessage.classList.remove("hidden");
+                };
+
+            } else {
+                const data = await response.json();
+                if (data.error) {
+                    processMessage.innerText = `Hata: ${data.error}`;
+                    processMessage.classList.remove("hidden");
+                }
+            }
+        } catch (error) {
+            stopTimer();
+            processMessage.innerText = `Bir hata oluştu: ${error.message}`;
+            processMessage.classList.remove("hidden");
+        }
+        finally {
+            // Butonu normal haline getir
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                        <span>İşlemi Başlat</span>
+                    `;
+        }
+    });
+</script>
 {% endblock %}
