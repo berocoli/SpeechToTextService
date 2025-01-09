@@ -4,11 +4,19 @@ import torch.nn.functional as F
 import torchaudio
 
 from transformers import AutoConfig, Wav2Vec2FeatureExtractor
-from models import HubertForSpeechClassification  # Kodun kaynağındaki import
+
+# HuBERT-SER projesindeki modelleri içeri aktarma
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "HuBERT-SER"))
+)
+from models import HubertForSpeechClassification  # Doğru içeri aktarma
 
 # Modeli global seviyede (uygulama start alırken) yükleyerek
 # performanstan kazanabilirsiniz.
-# Modelin ismini sizinkine göre düzenleyin.
+# Modelin ismini sizinkine göböylre düzenleyin.
 MODEL_NAME_OR_PATH = "SeaBenSea/hubert-large-turkish-speech-emotion-recognition"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

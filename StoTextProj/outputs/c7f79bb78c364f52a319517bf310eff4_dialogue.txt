@@ -1,0 +1,64 @@
+
+SPEAKER 00:
+  Bir fatura. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 01:
+  Alo. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 00:
+  Alo merhabalar. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 01:
+  Alo sesim alabiliyor musunuz? (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 00:
+  Yunus. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+  Ben duyuyorum. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+  Geliyor mu? (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+SPEAKER_01_9.wav: Hata: İşleme hatası.
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+  Benim şerbet meslek makbuzu ETVM açık değilmiş galiba da. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.50)
+  Mali mühit mesela duysa bize ulaşmanız duyumunda aktif edebiliriz demişti. Tuğçe hanım onun için öldüm. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 01:
+  Bakalım hemen endeks alıyım bana endekseri. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 02:
+  19, 35. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 02:
+  415 751. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 01:
+  Bu dosya indikten sonra bizi tekrar arayabilir misiniz? (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 02:
+  Tamamdır. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.00)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 02:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 01:
+  Uzun sürecek çünkü ben bağlıyım dedi. Muhtemelen daha yavaş yapıyor. (Duygu: Nötr, Polarity: 0.00, Subjectivity: 0.07)
+  Dost değildikten sonra arayın hemen sağlayalım işleminizi. (Duygu: Olumsuz, Polarity: -0.19, Subjectivity: 0.50)
+
+SPEAKER 00:
+  Tamamdır, teşekkürler. (Duygu: Olumlu, Polarity: 0.35, Subjectivity: 0.35)
+
+SPEAKER 01:
+  Rica ederim iyi günler hoşça kalın. (Duygu: Olumlu, Polarity: 0.75, Subjectivity: 0.75)
+
+SPEAKER 00:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu, Polarity: 0.40, Subjectivity: 0.40)

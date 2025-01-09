@@ -136,7 +136,7 @@ Speech Emotion Recognition
     const fileInfo = document.getElementById('fileInfo');
     const fileName = document.getElementById('fileName');
 
-    // Sürükle-bırak önleyici fonksiyonlar
+    // Sürükle-bırak önleyici fonksiyonlar (Safari dahil tüm tarayıcılarda)
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, preventDefaults, false);
     });
@@ -161,10 +161,14 @@ Speech Emotion Recognition
 
     // Dosyayı bırakınca
     dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
+        // Safari uyumluluğu: e.dataTransfer veya e.originalEvent.dataTransfer
+        const dt = e.dataTransfer || (e.originalEvent && e.originalEvent.dataTransfer);
+        if (!dt) return; // Beklenmedik bir durumda fonksiyondan çık
+
         const file = dt.files[0];
 
-        if (file && file.type === 'audio/wav') {
+        // Safari'de file.type bazen boş gelebilir, bu yüzden ek olarak file.name kontrolü de yapabilirsiniz
+        if (file && (file.type === 'audio/wav' || file.name.toLowerCase().endsWith('.wav'))) {
             handleFile(file);
         } else {
             alert('Lütfen WAV formatında bir dosya yükleyin!');
@@ -179,6 +183,7 @@ Speech Emotion Recognition
         }
     });
 
+    // Dosya işleme fonksiyonu
     function handleFile(file) {
         fileName.textContent = file.name;
         fileInfo.classList.remove('hidden');
@@ -275,6 +280,7 @@ Speech Emotion Recognition
 
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.includes("text/plain")) {
+                // Metin içeriği
                 const responseClone = response.clone();
                 const text = await responseClone.text();
 
@@ -319,7 +325,6 @@ Speech Emotion Recognition
                     processMessage.innerText = `Hata: ${data.error}`;
                     processMessage.classList.remove("hidden");
                 } else {
-                    // Duygu sonuçlarını data.results vb. şekilde göstermek isterseniz
                     output.innerText = JSON.stringify(data, null, 2);
                     outputContainer.classList.remove("hidden");
                 }
@@ -342,4 +347,5 @@ Speech Emotion Recognition
         }
     });
 </script>
+
 {% endblock %}

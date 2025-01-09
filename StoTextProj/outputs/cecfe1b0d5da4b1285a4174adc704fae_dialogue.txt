@@ -1,0 +1,24 @@
+
+SPEAKER 00:
+  Mesela duysa bize ulaşmanız edebiliriz demişti. Tuğçe hanım onun için artık. (Duygu: Nötr)
+
+SPEAKER 01:
+  Bakalım hemen. (Duygu: Olumlu)
+  Endeks alıyım, bana endeks ver. (Duygu: Nötr)
+
+SPEAKER 02:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 03:
+  19, 35. (Duygu: Nötr)
+
+SPEAKER 00:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 04:
+  Evet. (Duygu: Nötr)
+
+SPEAKER 00:
+  415. (Duygu: Nötr)
+  751. (Duygu: Nötr)

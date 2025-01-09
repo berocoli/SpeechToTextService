@@ -1,0 +1,64 @@
+
+SPEAKER 00:
+  Bir fatura. (Duygu: Nötr)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 01:
+  Alo. (Duygu: Nötr)
+
+SPEAKER 00:
+  Alo merhabalar. (Duygu: Nötr)
+
+SPEAKER 01:
+  Alo sesim alabiliyor musunuz? (Duygu: Nötr)
+
+SPEAKER 00:
+  Yunus. (Duygu: Nötr)
+  Ben duyuyorum. (Duygu: Nötr)
+  Geliyor mu? (Duygu: Nötr)
+SPEAKER_01_9.wav: Hata: İşleme hatası.
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+  Benim şerbet meslek makbuzu ETVM açık değilmiş galiba da. (Duygu: Nötr)
+  Mali mühit mesela duysa bize ulaşmanız duyumunda aktif edebiliriz demişti. Tuğçe hanım onun için öldüm. (Duygu: Nötr)
+
+SPEAKER 01:
+  Bakalım hemen endeks alıyım bana endekseri. (Duygu: Nötr)
+
+SPEAKER 02:
+  19, 35. (Duygu: Nötr)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 02:
+  415 751. (Duygu: Nötr)
+
+SPEAKER 01:
+  Bu dosya indikten sonra bizi tekrar arayabilir misiniz? (Duygu: Nötr)
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 02:
+  Tamamdır. (Duygu: Nötr)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 02:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 01:
+  Uzun sürecek çünkü ben bağlıyım dedi. Muhtemelen daha yavaş yapıyor. (Duygu: Nötr)
+  Dost değildikten sonra arayın hemen sağlayalım işleminizi. (Duygu: Olumsuz)
+
+SPEAKER 00:
+  Tamamdır, teşekkürler. (Duygu: Olumlu)
+
+SPEAKER 01:
+  Rica ederim iyi günler hoşça kalın. (Duygu: Olumlu)
+
+SPEAKER 00:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
+
+SPEAKER 01:
+  [NoMatch: Ses anlaşılamadı] (Duygu: Olumlu)
